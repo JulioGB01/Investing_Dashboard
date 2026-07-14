@@ -1,0 +1,23 @@
+{
+  "titulo": "Mi radar de mercado",
+  "anos_historia": 10,
+  "ema_periodo": 200,
+  "umbrales_distancia": {
+    "cerca": 15,
+    "moderada": 35
+  },
+  "activos": [
+    { "ticker": "BTC-USD", "nombre": "Bitcoin", "color": "#f7931a" },
+    { "ticker": "ETH-USD", "nombre": "Ethereum", "color": "#7584ef" },
+    { "ticker": "SOL-USD", "nombre": "Solana", "color": "#d873ff" },
+    { "ticker": "GLD", "nombre": "Oro", "color": "#e5b94b" },
+    { "ticker": "SLV", "nombre": "Plata", "color": "#b8c1c8" },
+    { "ticker": "XLE", "nombre": "Energía", "color": "#e47747" },
+    { "ticker": "VOO", "nombre": "S&P 500", "color": "#f1eee5" },
+    { "ticker": "QQQ", "nombre": "Nasdaq 100", "color": "#43cbd3" },
+    { "ticker": "IWM", "nombre": "Russell 2000", "color": "#ad83e5" },
+    { "ticker": "VXUS", "nombre": "Mercados internacionales", "color": "#69a9d1" },
+    { "ticker": "TLT", "nombre": "Bonos de largo plazo", "color": "#68c985" },
+    { "ticker": "VNQ", "nombre": "Bienes raíces", "color": "#e98775" }
+  ]
+}
