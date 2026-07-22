@@ -1,46 +1,30 @@
-# Mi radar de mercado
+# Investing Dashboard
 
-Dashboard personal y automático con una lectura muy concreta para cada activo:
+> Dashboard estático que resume la posición de una lista configurable de activos respecto de su precio histórico y de la EMA 200.
 
-- hasta 10 años de cierres diarios;
-- precio y EMA 200;
-- distancia porcentual del precio actual a su promedio simple;
-- barra verde si está por encima y roja si está por debajo.
+El proyecto genera una página HTML lista para publicar. Python se ejecuta únicamente durante la actualización; GitHub Pages sirve el resultado estático. Es una herramienta personal de investigación y visualización, no un sistema de ejecución de órdenes.
 
-El promedio se usa para el cálculo, pero no se dibuja en el gráfico. El resultado es un sitio estático: Python solo trabaja durante la actualización y GitHub Pages sirve el HTML terminado.
+## Qué muestra
 
-## Publicarlo por primera vez
+- Hasta diez años de cierres diarios por activo.
+- Precio reciente y media móvil exponencial de 200 períodos.
+- Distancia porcentual entre el precio y su promedio de cierres.
+- Lectura visual de la posición relativa de cada activo.
+- Historial y configuración completamente reproducibles.
 
-No necesitas instalar Python en tu computadora si vas a usar GitHub.
+## Configuración
 
-1. Crea un repositorio nuevo en GitHub.
-2. Sube todos los archivos de esta carpeta a la rama `main`.
-3. En el repositorio abre **Settings → Pages**.
-4. En **Build and deployment → Source**, elige **GitHub Actions**.
-5. Abre **Actions → Actualizar dashboard → Run workflow** y confirma.
-6. Cuando termine, GitHub mostrará la dirección de tu dashboard en **Settings → Pages**.
+Edita [`configuracion.json`](configuracion.json) para definir título, años de historia, período de EMA, umbrales de clasificación y lista de activos, ticker, nombre y color.
 
-La actualización se ejecutará todos los días a las 10:15 UTC (06:15 en Bolivia). También puedes usar **Run workflow** cuando quieras actualizarlo manualmente.
+Los símbolos se consultan a través de Yahoo Finance. Comprueba siempre la disponibilidad, exactitud y términos de uso de los datos antes de depender de una actualización.
 
-## Cambiar los activos
+## Actualización automática
 
-Solo edita [`configuracion.json`](configuracion.json). Cada activo tiene tres datos:
+El workflow [`update_dashboard.yml`](.github/workflows/update_dashboard.yml) genera y publica el sitio en GitHub Pages en cada cambio a `main`, manualmente desde la pestaña **Actions** y cada día a las **10:15 UTC**. El HTML generado se publica como artefacto de Pages y no se guarda en el repositorio.
 
-```json
-{ "ticker": "VOO", "nombre": "S&P 500", "color": "#f1eee5" }
-```
+## Ejecución local
 
-- `ticker`: el símbolo usado por Yahoo Finance.
-- `nombre`: el texto que verás en la tarjeta.
-- `color`: el color de su línea, en formato hexadecimal.
-
-Puedes borrar una línea, cambiarla o agregar otra dentro de la lista `activos`. Cuida que cada elemento, salvo el último, termine en coma.
-
-En el mismo archivo puedes cambiar el título, los años de historia, el período de la EMA y los niveles que clasifican la distancia como cercana, moderada o muy alejada.
-
-## Probarlo en Windows (opcional)
-
-Si deseas generar una copia local, instala Python 3.11 y ejecuta en PowerShell:
+Requiere Python 3.11 o compatible:
 
 ```powershell
 py -m venv .venv
@@ -49,14 +33,23 @@ pip install -r requirements.txt
 python generar_dashboard.py
 ```
 
-Después abre `index.html` con tu navegador. El archivo está ignorado por Git porque GitHub lo vuelve a generar en cada actualización.
+Abre el `index.html` generado en tu navegador.
 
-## Cómo leerlo
-
-La distancia es:
+## Estructura
 
 ```text
-(precio actual - promedio de cierres) / promedio de cierres × 100
+.
+├── configuracion.json                 # Activos y parámetros visibles
+├── generar_dashboard.py                # Generador del sitio estático
+├── requirements.txt                    # Dependencias de generación
+├── .github/workflows/update_dashboard.yml
+└── README.md
 ```
 
-La clasificación usa el valor absoluto: cuanto mayor sea la distancia, más estirado está el precio respecto de su propia historia. Es una medida descriptiva, no una recomendación de inversión.
+## Aviso financiero
+
+Los gráficos y clasificaciones son descriptivos. No constituyen asesoramiento financiero, una recomendación de compra o venta, ni una garantía de resultados. Toda decisión de inversión debe considerar objetivos, riesgo, liquidez, costos y asesoramiento profesional independiente.
+
+## Contribuciones
+
+Consulta [`CONTRIBUTING.md`](CONTRIBUTING.md) antes de abrir un issue o pull request.
